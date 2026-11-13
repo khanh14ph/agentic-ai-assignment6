@@ -13,8 +13,8 @@ error. Every call that is made still goes through the run's registry and its hoo
 
 Each loop is Assignment 1's loop (agent/loop.py) with two changes: it ends when the
 role's job is done (a return accepted, a comment posted) rather than waiting for the
-model to stop, and it keeps a reserve for one last turn in which an investigator
-must return. Every model and tool line goes through the agent's own trace, so it
+model to stop, and it holds its last two turns in reserve, in which an investigator
+must return (and may fix a rejected return once). Every model and tool line goes through the agent's own trace, so it
 names the agent and its parent; the worker's tokens are its client's.
 
 The contract's `searched` and `calls_used` are facts about the run: `Facts` records
@@ -40,6 +40,7 @@ RETURN_TOOL = "return_finding"
 INVESTIGATOR_ROLES = ("read_issue", "search", "read_file", "run_tests")
 WRITER_ROLES = ("apply_label", "open_pr", "comment")
 MAX_REJECTIONS = 3           # returns sent back before the coordinator gives up on a worker
+FINAL_TURNS = 2              # turns held back at the end of an investigator's share: a return, and one retry
 NEXT_CALL_MARGIN = 1.15      # the next call costs about the last one, a little more: the context only grows
 
 FINAL_TURN = ("Stop investigating now: you are at the end of your steps or your share of the budget. "
@@ -179,7 +180,7 @@ def investigate(ctx, receiver, agent, issue: int, share: Share, *, system: str, 
         if stop is not None and stop.is_set():
             agent.trace.end("stopped", "the coordinator stopped this worker")
             return None
-        why = _bounded(agent, ctx.client, run_budget, share, step, started, last_cost, reserve_turns=1)
+        why = _bounded(agent, ctx.client, run_budget, share, step, started, last_cost, reserve_turns=FINAL_TURNS)
         if why and not final:
             final = True                     # the reserved turn: return now, with what you have
             _say(messages, FINAL_TURN)
