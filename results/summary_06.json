@@ -1,0 +1,452 @@
+{
+  "constants": {
+    "checks_sha": "55abcd67e6a3b208",
+    "model": "gemini-3.5-flash-lite",
+    "reviewer": "scripted:approve-all",
+    "schemas_sha": "703c0002892f27ec",
+    "task_ids": [
+      "batch-a",
+      "batch-b",
+      "one-4402",
+      "one-4403",
+      "one-4405",
+      "one-4406",
+      "one-4409",
+      "one-4413"
+    ]
+  },
+  "arms": {
+    "S": {
+      "single": {
+        "runs": 18,
+        "passes": 11,
+        "per_task": {
+          "one-4402": 0,
+          "one-4403": 3,
+          "one-4405": 3,
+          "one-4406": 0,
+          "one-4409": 2,
+          "one-4413": 3
+        },
+        "sweep_min": 3,
+        "sweep_max": 4,
+        "all_three": 3,
+        "mean_tokens": 51572,
+        "mean_wall_s": 7.2
+      },
+      "batch": {
+        "runs": 6,
+        "passes": 4,
+        "per_task": {
+          "batch-a": 1,
+          "batch-b": 3
+        },
+        "sweep_min": 1,
+        "sweep_max": 2,
+        "all_three": 1,
+        "mean_tokens": 356827,
+        "mean_wall_s": 28.6
+      }
+    },
+    "M": {
+      "single": {
+        "runs": 18,
+        "passes": 16,
+        "per_task": {
+          "one-4402": 1,
+          "one-4403": 3,
+          "one-4405": 3,
+          "one-4406": 3,
+          "one-4409": 3,
+          "one-4413": 3
+        },
+        "sweep_min": 5,
+        "sweep_max": 6,
+        "all_three": 5,
+        "mean_tokens": 26115,
+        "mean_wall_s": 7.2
+      },
+      "batch": {
+        "runs": 6,
+        "passes": 3,
+        "per_task": {
+          "batch-a": 3,
+          "batch-b": 0
+        },
+        "sweep_min": 1,
+        "sweep_max": 1,
+        "all_three": 1,
+        "mean_tokens": 137694,
+        "mean_wall_s": 9.8
+      }
+    },
+    "S_plus": {
+      "single": {
+        "runs": 18,
+        "passes": 15,
+        "per_task": {
+          "one-4402": 1,
+          "one-4403": 3,
+          "one-4405": 2,
+          "one-4406": 3,
+          "one-4409": 3,
+          "one-4413": 3
+        },
+        "sweep_min": 5,
+        "sweep_max": 5,
+        "all_three": 4,
+        "mean_tokens": 28870,
+        "mean_wall_s": 7.9
+      },
+      "batch": {
+        "runs": 6,
+        "passes": 4,
+        "per_task": {
+          "batch-a": 3,
+          "batch-b": 1
+        },
+        "sweep_min": 1,
+        "sweep_max": 2,
+        "all_three": 1,
+        "mean_tokens": 139438,
+        "mean_wall_s": 34.9
+      }
+    }
+  },
+  "multiplier": {
+    "single": 0.51,
+    "batch": 0.39
+  },
+  "per_issue": {
+    "S": {
+      "single": {
+        "passed": 11,
+        "of": 18
+      },
+      "batch": {
+        "passed": 27,
+        "of": 30
+      }
+    },
+    "M": {
+      "single": {
+        "passed": 16,
+        "of": 18
+      },
+      "batch": {
+        "passed": 25,
+        "of": 30
+      }
+    },
+    "S_plus": {
+      "single": {
+        "passed": 15,
+        "of": 18
+      },
+      "batch": {
+        "passed": 27,
+        "of": 30
+      }
+    }
+  },
+  "spend_per_task": {
+    "batch-a": {
+      "S": {
+        "mean_tokens": 374096,
+        "passes": 1,
+        "mean_wall_s": 28.6
+      },
+      "M": {
+        "mean_tokens": 119070,
+        "passes": 3,
+        "mean_wall_s": 9.0
+      },
+      "S_plus": {
+        "mean_tokens": 129255,
+        "passes": 3,
+        "mean_wall_s": 33.8
+      }
+    },
+    "batch-b": {
+      "S": {
+        "mean_tokens": 339558,
+        "passes": 3,
+        "mean_wall_s": 28.6
+      },
+      "M": {
+        "mean_tokens": 156317,
+        "passes": 0,
+        "mean_wall_s": 10.6
+      },
+      "S_plus": {
+        "mean_tokens": 149622,
+        "passes": 1,
+        "mean_wall_s": 36.1
+      }
+    },
+    "one-4402": {
+      "S": {
+        "mean_tokens": 75082,
+        "passes": 0,
+        "mean_wall_s": 9.3
+      },
+      "M": {
+        "mean_tokens": 46051,
+        "passes": 1,
+        "mean_wall_s": 10.9
+      },
+      "S_plus": {
+        "mean_tokens": 46048,
+        "passes": 1,
+        "mean_wall_s": 11.1
+      }
+    },
+    "one-4403": {
+      "S": {
+        "mean_tokens": 32839,
+        "passes": 3,
+        "mean_wall_s": 5.2
+      },
+      "M": {
+        "mean_tokens": 21683,
+        "passes": 3,
+        "mean_wall_s": 6.9
+      },
+      "S_plus": {
+        "mean_tokens": 19881,
+        "passes": 3,
+        "mean_wall_s": 5.5
+      }
+    },
+    "one-4405": {
+      "S": {
+        "mean_tokens": 38993,
+        "passes": 3,
+        "mean_wall_s": 4.7
+      },
+      "M": {
+        "mean_tokens": 20913,
+        "passes": 3,
+        "mean_wall_s": 6.4
+      },
+      "S_plus": {
+        "mean_tokens": 29581,
+        "passes": 2,
+        "mean_wall_s": 7.0
+      }
+    },
+    "one-4406": {
+      "S": {
+        "mean_tokens": 70015,
+        "passes": 0,
+        "mean_wall_s": 9.8
+      },
+      "M": {
+        "mean_tokens": 27051,
+        "passes": 3,
+        "mean_wall_s": 8.1
+      },
+      "S_plus": {
+        "mean_tokens": 37223,
+        "passes": 3,
+        "mean_wall_s": 10.9
+      }
+    },
+    "one-4409": {
+      "S": {
+        "mean_tokens": 56442,
+        "passes": 2,
+        "mean_wall_s": 8.1
+      },
+      "M": {
+        "mean_tokens": 23023,
+        "passes": 3,
+        "mean_wall_s": 5.9
+      },
+      "S_plus": {
+        "mean_tokens": 22758,
+        "passes": 3,
+        "mean_wall_s": 6.6
+      }
+    },
+    "one-4413": {
+      "S": {
+        "mean_tokens": 36063,
+        "passes": 3,
+        "mean_wall_s": 6.2
+      },
+      "M": {
+        "mean_tokens": 17969,
+        "passes": 3,
+        "mean_wall_s": 5.3
+      },
+      "S_plus": {
+        "mean_tokens": 17725,
+        "passes": 3,
+        "mean_wall_s": 6.3
+      }
+    }
+  },
+  "splus_match": {
+    "batch-a": {
+      "budget": [
+        119070
+      ],
+      "m_mean_now": 119070,
+      "splus_mean": 129255,
+      "splus_over_m": 1.09
+    },
+    "batch-b": {
+      "budget": [
+        156317
+      ],
+      "m_mean_now": 156317,
+      "splus_mean": 149622,
+      "splus_over_m": 0.96
+    },
+    "one-4402": {
+      "budget": [
+        46051
+      ],
+      "m_mean_now": 46051,
+      "splus_mean": 46048,
+      "splus_over_m": 1.0
+    },
+    "one-4403": {
+      "budget": [
+        21683
+      ],
+      "m_mean_now": 21683,
+      "splus_mean": 19881,
+      "splus_over_m": 0.92
+    },
+    "one-4405": {
+      "budget": [
+        20913
+      ],
+      "m_mean_now": 20913,
+      "splus_mean": 29581,
+      "splus_over_m": 1.41
+    },
+    "one-4406": {
+      "budget": [
+        27051
+      ],
+      "m_mean_now": 27051,
+      "splus_mean": 37223,
+      "splus_over_m": 1.38
+    },
+    "one-4409": {
+      "budget": [
+        23023
+      ],
+      "m_mean_now": 23023,
+      "splus_mean": 22758,
+      "splus_over_m": 0.99
+    },
+    "one-4413": {
+      "budget": [
+        17969
+      ],
+      "m_mean_now": 17969,
+      "splus_mean": 17725,
+      "splus_over_m": 0.99
+    }
+  },
+  "m_failures": [
+    {
+      "run_id": "split-batch-b-s01-973ed6",
+      "task": "batch-b",
+      "wrong": [
+        {
+          "issue": 4424,
+          "why": [
+            "0 comments, not one",
+            "labels on the issue [], not ['bug']",
+            "0 open pull requests, not one"
+          ],
+          "label": null,
+          "file": null
+        },
+        {
+          "issue": 4429,
+          "why": [
+            "0 comments, not one",
+            "labels on the issue [], not ['bug']",
+            "0 open pull requests, not one"
+          ],
+          "label": null,
+          "file": null
+        },
+        {
+          "issue": 4431,
+          "why": [
+            "the comment's file is 'src/exportUtils.ts', not 'src/util/strings.ts'"
+          ],
+          "label": "feature",
+          "file": "src/exportUtils.ts"
+        }
+      ]
+    },
+    {
+      "run_id": "split-batch-b-s02-908a6d",
+      "task": "batch-b",
+      "wrong": [
+        {
+          "issue": 4431,
+          "why": [
+            "the comment's label is 'bug', not 'feature'",
+            "labels on the issue ['bug'], not ['feature']"
+          ],
+          "label": "bug",
+          "file": "src/util/strings.ts"
+        }
+      ]
+    },
+    {
+      "run_id": "split-batch-b-s03-87bda3",
+      "task": "batch-b",
+      "wrong": [
+        {
+          "issue": 4431,
+          "why": [
+            "the comment's label is 'bug', not 'feature'",
+            "labels on the issue ['bug'], not ['feature']"
+          ],
+          "label": "bug",
+          "file": "src/util/strings.ts"
+        }
+      ]
+    },
+    {
+      "run_id": "split-one-4402-s01-8c63c9",
+      "task": "one-4402",
+      "wrong": [
+        {
+          "issue": 4402,
+          "why": [
+            "the comment's file is 'src/ingest/parser.ts', not 'src/util/money.ts'",
+            "the pull request does not name src/util/money.ts"
+          ],
+          "label": "bug",
+          "file": "src/ingest/parser.ts"
+        }
+      ]
+    },
+    {
+      "run_id": "split-one-4402-s03-3b330e",
+      "task": "one-4402",
+      "wrong": [
+        {
+          "issue": 4402,
+          "why": [
+            "the comment's file is 'src/ingest/parser.ts', not 'src/util/money.ts'",
+            "the pull request does not name src/util/money.ts"
+          ],
+          "label": "bug",
+          "file": "src/ingest/parser.ts"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,499 @@
+{
+  "note": "Arm S-plus's first measurement, discarded (python run.py --tasks fixtures/tasks6 --way splus --discard; its traces are in runs/discarded/). Its first attempt was capped at the issue's part minus a write reserve, and the loop held back two closing turns' cost, so on single issues it was told to return before it had read a file and spent 48% to 78% of its budget. Kept for the report, Part C.",
+  "arms": {
+    "S_plus": {
+      "single": {
+        "runs": 18,
+        "passes": 6,
+        "per_task": {
+          "one-4402": 1,
+          "one-4403": 2,
+          "one-4405": 0,
+          "one-4406": 0,
+          "one-4409": 3,
+          "one-4413": 0
+        },
+        "sweep_min": 2,
+        "sweep_max": 2,
+        "all_three": 1,
+        "mean_tokens": 17708,
+        "mean_wall_s": 4.3
+      },
+      "batch": {
+        "runs": 6,
+        "passes": 1,
+        "per_task": {
+          "batch-a": 1,
+          "batch-b": 0
+        },
+        "sweep_min": 0,
+        "sweep_max": 1,
+        "all_three": 0,
+        "mean_tokens": 130596,
+        "mean_wall_s": 33.5
+      }
+    }
+  },
+  "per_issue": {
+    "single": {
+      "passed": 6,
+      "of": 18
+    },
+    "batch": {
+      "passed": 21,
+      "of": 30
+    }
+  },
+  "splus_match": {
+    "batch-a": {
+      "budget": [
+        119070
+      ],
+      "m_mean_now": 119070,
+      "splus_mean": 112665,
+      "splus_over_m": 0.95
+    },
+    "batch-b": {
+      "budget": [
+        156317
+      ],
+      "m_mean_now": 156317,
+      "splus_mean": 148528,
+      "splus_over_m": 0.95
+    },
+    "one-4402": {
+      "budget": [
+        46051
+      ],
+      "m_mean_now": 46051,
+      "splus_mean": 34290,
+      "splus_over_m": 0.74
+    },
+    "one-4403": {
+      "budget": [
+        21683
+      ],
+      "m_mean_now": 21683,
+      "splus_mean": 15445,
+      "splus_over_m": 0.71
+    },
+    "one-4405": {
+      "budget": [
+        20913
+      ],
+      "m_mean_now": 20913,
+      "splus_mean": 12105,
+      "splus_over_m": 0.58
+    },
+    "one-4406": {
+      "budget": [
+        27051
+      ],
+      "m_mean_now": 27051,
+      "splus_mean": 17766,
+      "splus_over_m": 0.66
+    },
+    "one-4409": {
+      "budget": [
+        23023
+      ],
+      "m_mean_now": 23023,
+      "splus_mean": 18067,
+      "splus_over_m": 0.78
+    },
+    "one-4413": {
+      "budget": [
+        17969
+      ],
+      "m_mean_now": 17969,
+      "splus_mean": 8579,
+      "splus_over_m": 0.48
+    }
+  },
+  "runs": [
+    {
+      "run_id": "splus-batch-a-s01-ae15fe",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-a",
+      "kind": "batch",
+      "sweep": 1,
+      "passed": true,
+      "parts": {
+        "4410": true,
+        "4412": true,
+        "4414": true,
+        "4420": true,
+        "4423": true
+      },
+      "tokens": 115191,
+      "wall_s": 29.664,
+      "budget": 119070
+    },
+    {
+      "run_id": "splus-batch-a-s02-38236d",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-a",
+      "kind": "batch",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4410": true,
+        "4412": true,
+        "4414": true,
+        "4420": false,
+        "4423": true
+      },
+      "tokens": 111902,
+      "wall_s": 28.375,
+      "budget": 119070
+    },
+    {
+      "run_id": "splus-batch-a-s03-18a8e3",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-a",
+      "kind": "batch",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4410": true,
+        "4412": true,
+        "4414": false,
+        "4420": true,
+        "4423": true
+      },
+      "tokens": 110902,
+      "wall_s": 33.986,
+      "budget": 119070
+    },
+    {
+      "run_id": "splus-batch-b-s01-ffaea3",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-b",
+      "kind": "batch",
+      "sweep": 1,
+      "passed": false,
+      "parts": {
+        "4424": false,
+        "4426": false,
+        "4429": true,
+        "4431": false,
+        "4434": true
+      },
+      "tokens": 148995,
+      "wall_s": 32.095,
+      "budget": 156317
+    },
+    {
+      "run_id": "splus-batch-b-s02-8218a6",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-b",
+      "kind": "batch",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4424": false,
+        "4426": false,
+        "4429": true,
+        "4431": false,
+        "4434": true
+      },
+      "tokens": 145626,
+      "wall_s": 32.166,
+      "budget": 156317
+    },
+    {
+      "run_id": "splus-batch-b-s03-802cda",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "batch-b",
+      "kind": "batch",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4424": true,
+        "4426": true,
+        "4429": true,
+        "4431": false,
+        "4434": true
+      },
+      "tokens": 150963,
+      "wall_s": 44.903,
+      "budget": 156317
+    },
+    {
+      "run_id": "splus-one-4402-s01-a55ce9",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4402",
+      "kind": "single",
+      "sweep": 1,
+      "passed": false,
+      "parts": {
+        "4402": false
+      },
+      "tokens": 31762,
+      "wall_s": 5.564,
+      "budget": 46051
+    },
+    {
+      "run_id": "splus-one-4402-s02-2f3239",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4402",
+      "kind": "single",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4402": false
+      },
+      "tokens": 32849,
+      "wall_s": 5.351,
+      "budget": 46051
+    },
+    {
+      "run_id": "splus-one-4402-s03-d04bd0",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4402",
+      "kind": "single",
+      "sweep": 3,
+      "passed": true,
+      "parts": {
+        "4402": true
+      },
+      "tokens": 38259,
+      "wall_s": 9.178,
+      "budget": 46051
+    },
+    {
+      "run_id": "splus-one-4403-s01-d6f991",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4403",
+      "kind": "single",
+      "sweep": 1,
+      "passed": true,
+      "parts": {
+        "4403": true
+      },
+      "tokens": 13706,
+      "wall_s": 5.153,
+      "budget": 21683
+    },
+    {
+      "run_id": "splus-one-4403-s02-0214c5",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4403",
+      "kind": "single",
+      "sweep": 2,
+      "passed": true,
+      "parts": {
+        "4403": true
+      },
+      "tokens": 17797,
+      "wall_s": 6.54,
+      "budget": 21683
+    },
+    {
+      "run_id": "splus-one-4403-s03-6c095b",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4403",
+      "kind": "single",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4403": false
+      },
+      "tokens": 14831,
+      "wall_s": 3.92,
+      "budget": 21683
+    },
+    {
+      "run_id": "splus-one-4405-s01-cd87c0",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4405",
+      "kind": "single",
+      "sweep": 1,
+      "passed": false,
+      "parts": {
+        "4405": false
+      },
+      "tokens": 11603,
+      "wall_s": 2.774,
+      "budget": 20913
+    },
+    {
+      "run_id": "splus-one-4405-s02-c59794",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4405",
+      "kind": "single",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4405": false
+      },
+      "tokens": 12375,
+      "wall_s": 3.001,
+      "budget": 20913
+    },
+    {
+      "run_id": "splus-one-4405-s03-79c0e0",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4405",
+      "kind": "single",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4405": false
+      },
+      "tokens": 12337,
+      "wall_s": 3.387,
+      "budget": 20913
+    },
+    {
+      "run_id": "splus-one-4406-s01-8f03d2",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4406",
+      "kind": "single",
+      "sweep": 1,
+      "passed": false,
+      "parts": {
+        "4406": false
+      },
+      "tokens": 17780,
+      "wall_s": 4.12,
+      "budget": 27051
+    },
+    {
+      "run_id": "splus-one-4406-s02-5992dd",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4406",
+      "kind": "single",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4406": false
+      },
+      "tokens": 17761,
+      "wall_s": 3.797,
+      "budget": 27051
+    },
+    {
+      "run_id": "splus-one-4406-s03-014a99",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4406",
+      "kind": "single",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4406": false
+      },
+      "tokens": 17757,
+      "wall_s": 4.668,
+      "budget": 27051
+    },
+    {
+      "run_id": "splus-one-4409-s01-e06729",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4409",
+      "kind": "single",
+      "sweep": 1,
+      "passed": true,
+      "parts": {
+        "4409": true
+      },
+      "tokens": 18134,
+      "wall_s": 4.904,
+      "budget": 23023
+    },
+    {
+      "run_id": "splus-one-4409-s02-ae525e",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4409",
+      "kind": "single",
+      "sweep": 2,
+      "passed": true,
+      "parts": {
+        "4409": true
+      },
+      "tokens": 17981,
+      "wall_s": 4.553,
+      "budget": 23023
+    },
+    {
+      "run_id": "splus-one-4409-s03-68c6b3",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4409",
+      "kind": "single",
+      "sweep": 3,
+      "passed": true,
+      "parts": {
+        "4409": true
+      },
+      "tokens": 18085,
+      "wall_s": 5.127,
+      "budget": 23023
+    },
+    {
+      "run_id": "splus-one-4413-s01-2ffa37",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4413",
+      "kind": "single",
+      "sweep": 1,
+      "passed": false,
+      "parts": {
+        "4413": false
+      },
+      "tokens": 8584,
+      "wall_s": 2.027,
+      "budget": 17969
+    },
+    {
+      "run_id": "splus-one-4413-s02-f7dff3",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4413",
+      "kind": "single",
+      "sweep": 2,
+      "passed": false,
+      "parts": {
+        "4413": false
+      },
+      "tokens": 8576,
+      "wall_s": 1.597,
+      "budget": 17969
+    },
+    {
+      "run_id": "splus-one-4413-s03-f6b087",
+      "arm": "S_plus",
+      "way": "splus",
+      "task": "one-4413",
+      "kind": "single",
+      "sweep": 3,
+      "passed": false,
+      "parts": {
+        "4413": false
+      },
+      "tokens": 8576,
+      "wall_s": 2.296,
+      "budget": 17969
+    }
+  ]
+}
