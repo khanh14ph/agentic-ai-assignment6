@@ -1,0 +1,30 @@
+{
+  "title": "An investigator's return to the coordinator (Assignment 6, Part B, task 2)",
+  "description": "Structured, never prose. result, status, not_searched and could_not_determine come from the worker's return tool; searched and calls_used are added by the coordinator's code from the worker's own tool_call lines, never from the model. A return that breaks this schema is rejected, traced, and sent back to the worker.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["result", "status", "searched", "not_searched", "calls_used", "could_not_determine"],
+  "properties": {
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue", "label", "file", "evidence", "change"],
+      "properties": {
+        "issue": {"type": "integer", "description": "The issue this finding is for, as a number."},
+        "label": {"type": "string", "enum": ["bug", "feature", "question", "docs"]},
+        "file": {"type": "string", "description": "The one file most responsible, relative to the repository root, or none."},
+        "evidence": {"type": "string", "description": "One or two sentences: what in that file explains the issue."},
+        "change": {"type": "string", "description": "One or two sentences: what to change in that file; for a question, the answer."}
+      }
+    },
+    "status": {"type": "string", "enum": ["found", "candidate", "out_of_budget"]},
+    "searched": {"type": "array", "items": {"type": "string"},
+                 "description": "Every query the worker sent to the search tool and every path it read, each once, from its tool calls."},
+    "not_searched": {"type": "array", "items": {"type": "string"},
+                     "description": "What the worker knows it did not look at."},
+    "calls_used": {"type": "integer",
+                   "description": "The worker's calls to the registry's tools before it returned, from its tool_call lines."},
+    "could_not_determine": {"type": "array", "items": {"type": "string"},
+                            "description": "What the worker could not settle; empty when nothing."}
+  }
+}
