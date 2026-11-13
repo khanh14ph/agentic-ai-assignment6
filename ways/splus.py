@@ -14,20 +14,27 @@ attempt-<k>-<issue> and write-<issue>. Its attempts use the same return tool, th
 code checks on an answer, and the same guarded writes as arm M, so S-plus and M
 differ in topology, not in the checks.
 
-The budget is per task. Each issue gets an equal part of what is left. The first
-attempt may use the whole part, holding back one closing turn for its answer: it is
-the single agent's own investigation, and cutting it short to save for the write
-would only waste what it had spent. The write then costs what writes have cost in
-this run (6,000 tokens before the first). Further attempts start only while what is
-left after the write would pay for most of another (three quarters of the attempts'
-mean cost), each capped at what is left; if no attempt has given an answer yet, one
-more is tried while at least 40% of the part is left. So the spend comes out at about
-the budget, and an attempt is rarely started only to be cut off.
+The budget. Each issue's first attempt and its write get exactly the shares arm M
+gives its investigator and its writer (75% and 20% of the task's ceiling per issue,
+ways/split.py), with the same closing turns: so S-plus's first pass does the same
+work under the same bounds as M's two workers, one after the other instead of in
+two roles and, on a batch, at once. The matched budget, ctx.budget (arm M's mean spend
+on the task), is then spent on further attempts: each issue gets an equal part of
+what is left; another attempt starts only while what is left of the part, after the
+write, would pay for most of another (three quarters of the attempts' mean cost), and
+is capped at it; if no attempt has given an answer yet, one more is tried while at
+least 40% of the part is left. A write is never cut short by the budget: a cut write
+leaves an issue half-written, which no agent would choose.
 
-The first measurement of this arm used the write reserve on the first attempt too,
-and the split's loop's two-turn closing reserve: on single issues it spent 48% to 78%
-of its budget, telling attempts to stop before they had read a file. Those runs are in
-runs/discarded/ (see reports/LAB_06.md, Part C).
+This is the arm's third version, each measured on the task set and discarded with
+--discard (runs/discarded/; reports/LAB_06.md, Part C). The first capped each
+attempt at the issue's part minus a write reserve and held back two closing turns'
+cost, so on single issues it stopped attempts before they had read a file and spent
+48% to 78% of its budget. The second capped each batch issue's first attempt and its
+write at an even fifth of the matched budget, which arm M's workers never were: it
+cut writes before their comment after the vote had chosen an answer. Both were
+defects in the rival's bookkeeping, seen in the traces and the spend, not in the
+answers.
 """
 
 from __future__ import annotations
@@ -47,7 +54,8 @@ WRITE_ESTIMATE = 6_000              # a write's cost before this run has made on
 WRITE_MARGIN = 1.15
 FURTHER_ATTEMPT = 0.75              # start another attempt only if what is left pays for this much of one
 RESCUE_SHARE = 0.40                 # with no answer yet, one more attempt while this much of the part is left
-CLOSING_TURNS = 1                   # the turn an attempt holds back for its answer
+CLOSING_TURNS = 1                   # the turn a further attempt holds back for its answer
+FIRST_SHARE, WRITE_SHARE = 0.75, 0.20  # of the ceiling per issue: arm M's investigator and writer shares
 
 
 def key(contract: dict) -> tuple[str, str]:
@@ -76,6 +84,7 @@ def run(ctx) -> None:
     board = SharedState({})
     issues = ctx.issues
     total = ctx.budget or load_bounds().max_tokens * len(issues)
+    per_issue_ceiling = (ctx.ceiling or load_bounds().max_tokens * len(issues)) / len(issues)
     me.trace.event("shares", budget=total, issues=list(issues), max_attempts=MAX_ATTEMPTS)
     write_costs: list[int] = []
     for index, issue in enumerate(issues):
@@ -86,7 +95,7 @@ def run(ctx) -> None:
         for k in range(1, MAX_ATTEMPTS + 1):
             used = ctx.client.total_tokens - start
             if k == 1:
-                cap = part                                          # the first attempt: the whole part
+                cap = FIRST_SHARE * per_issue_ceiling               # the first attempt: M's investigator's share
             else:
                 cap = part - reserve - used                         # later ones: what the write leaves
                 further = cap >= FURTHER_ATTEMPT * (sum(costs) / len(costs))
@@ -100,7 +109,7 @@ def run(ctx) -> None:
                            part=round(part), write_reserve=round(reserve))
             answer = investigate(ctx, me, attempt, issue, share, system=attempt_prompt, schema=schema,
                                  accept=finding_rules(issue), event="attempt_answer", run_budget=None,
-                                 final_turns=CLOSING_TURNS)
+                                 final_turns=None if k == 1 else CLOSING_TURNS)
             costs.append(attempt.client.total_tokens)
             if answer is not None:
                 answers.append(answer)
@@ -117,10 +126,10 @@ def run(ctx) -> None:
         path = f"finding/{issue}"
         _, version = board.read(AGENT, path)
         board.write(AGENT, path, repr(finding), version)
-        left = part - (ctx.client.total_tokens - start)
         writer = ctx.agent(f"write-{issue}", parent=AGENT)
         write(ctx, writer, issue, finding, board.version(path), board,
-              Share(int(max(left, reserve)), WRITE_STEPS, WRITE_WALL_S), system=write_prompt, run_budget=None,
+              Share(int(WRITE_SHARE * per_issue_ceiling), WRITE_STEPS, WRITE_WALL_S), system=write_prompt,
+              run_budget=None,
               brief=writer_brief(issue, finding, source=f"Your answer, chosen by a vote over {len(answers)} "
                                                         f"of your attempts ({counts})"))
         write_costs.append(writer.client.total_tokens)
