@@ -14,100 +14,170 @@
     ]
   },
   "constants": {
-    "model": null,
-    "schemas_sha": null,
-    "checks_sha": null,
-    "reviewer": null,
-    "task_ids": []
+    "checks_sha": "55abcd67e6a3b208",
+    "model": "gemini-3.5-flash-lite",
+    "reviewer": "scripted:approve-all",
+    "schemas_sha": "703c0002892f27ec",
+    "task_ids": [
+      "batch-a",
+      "batch-b",
+      "one-4402",
+      "one-4403",
+      "one-4405",
+      "one-4406",
+      "one-4409",
+      "one-4413"
+    ]
   },
   "arms": {
     "S": {
       "single": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 18,
+        "passes": 11,
+        "per_task": {
+          "one-4402": 0,
+          "one-4403": 3,
+          "one-4405": 3,
+          "one-4406": 0,
+          "one-4409": 2,
+          "one-4413": 3
+        },
+        "sweep_min": 3,
+        "sweep_max": 4,
+        "all_three": 3,
+        "mean_tokens": 51572,
+        "mean_wall_s": 7.2
       },
       "batch": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 6,
+        "passes": 4,
+        "per_task": {
+          "batch-a": 1,
+          "batch-b": 3
+        },
+        "sweep_min": 1,
+        "sweep_max": 2,
+        "all_three": 1,
+        "mean_tokens": 356827,
+        "mean_wall_s": 28.6
       }
     },
     "M": {
       "single": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 18,
+        "passes": 16,
+        "per_task": {
+          "one-4402": 1,
+          "one-4403": 3,
+          "one-4405": 3,
+          "one-4406": 3,
+          "one-4409": 3,
+          "one-4413": 3
+        },
+        "sweep_min": 5,
+        "sweep_max": 6,
+        "all_three": 5,
+        "mean_tokens": 26115,
+        "mean_wall_s": 7.2
       },
       "batch": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 6,
+        "passes": 3,
+        "per_task": {
+          "batch-a": 3,
+          "batch-b": 0
+        },
+        "sweep_min": 1,
+        "sweep_max": 1,
+        "all_three": 1,
+        "mean_tokens": 137694,
+        "mean_wall_s": 9.8
       }
     },
     "S_plus": {
       "single": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 18,
+        "passes": 15,
+        "per_task": {
+          "one-4402": 1,
+          "one-4403": 3,
+          "one-4405": 2,
+          "one-4406": 3,
+          "one-4409": 3,
+          "one-4413": 3
+        },
+        "sweep_min": 5,
+        "sweep_max": 5,
+        "all_three": 4,
+        "mean_tokens": 28870,
+        "mean_wall_s": 7.9
       },
       "batch": {
-        "runs": 0,
-        "passes": 0,
-        "per_task": {},
-        "sweep_min": null,
-        "sweep_max": null,
-        "all_three": 0,
-        "mean_tokens": null,
-        "mean_wall_s": null
+        "runs": 6,
+        "passes": 4,
+        "per_task": {
+          "batch-a": 3,
+          "batch-b": 1
+        },
+        "sweep_min": 1,
+        "sweep_max": 2,
+        "all_three": 1,
+        "mean_tokens": 139438,
+        "mean_wall_s": 34.9
       }
     }
   },
   "multiplier": {
-    "single": null,
-    "batch": null
+    "single": 0.51,
+    "batch": 0.39
   },
   "spend_check": {
     "single": {
-      "spent_more": null,
-      "spend_raises_score": null,
-      "one_agent_as_well": null
+      "spent_more": "no",
+      "spend_raises_score": "no",
+      "one_agent_as_well": "yes"
     },
     "batch": {
-      "spent_more": null,
-      "spend_raises_score": null,
-      "one_agent_as_well": null
+      "spent_more": "no",
+      "spend_raises_score": "no",
+      "one_agent_as_well": "yes"
     }
   },
-  "failures": [],
+  "failures": [
+    {
+      "run_id": "split-batch-b-s01-973ed6",
+      "anomaly": "none",
+      "mast": "system_design",
+      "first_wrong": "investigator-4424 and investigator-4429 sent path_glob as the string \"null\" on every search, so every search matched nothing; each ran out of steps, returned 'bug, file none', was rejected by the coordinator's rule, and nothing was written for either issue (4431's investigator also chose src/exportUtils.ts over src/util/strings.ts, both of which it read)"
+    },
+    {
+      "run_id": "split-batch-b-s02-908a6d",
+      "anomaly": "none",
+      "mast": "task_verification",
+      "first_wrong": "investigator-4431 returned label bug with status found for a feature request; the right file; the writer wrote it faithfully and nothing could check the label"
+    },
+    {
+      "run_id": "split-batch-b-s03-87bda3",
+      "anomaly": "none",
+      "mast": "task_verification",
+      "first_wrong": "investigator-4431 returned label bug with status found for a feature request; the right file; the writer wrote it faithfully and nothing could check the label"
+    },
+    {
+      "run_id": "split-one-4402-s01-8c63c9",
+      "anomaly": "none",
+      "mast": "task_verification",
+      "first_wrong": "investigator-4402 read only src/ingest/parser.ts, was told to return at its closing turn, and returned it as a candidate; the coordinator's rules accept a candidate that exists and was read, and the writer wrote it"
+    },
+    {
+      "run_id": "split-one-4402-s03-3b330e",
+      "anomaly": "none",
+      "mast": "task_verification",
+      "first_wrong": "investigator-4402 read src/ingest/parser.ts and src/ingest/errors.ts and returned parser.ts as a candidate at its closing turn; accepted by the rules and written"
+    }
+  ],
   "decision": {
-    "single": null,
-    "batch": null,
-    "revisit_condition": null
+    "single": "single",
+    "batch": "single",
+    "revisit_condition": "Reopen for the batch only, if a split of the investigation, run on a fresh batch task set (at least two batches of five unrelated issues, each with its own known answers, three sweeps, B = 250,000 per issue, the same model and checks), passes at least as many issues as one agent given the split's actual spend (arm S-plus, --match split), and the batch's wall-clock is a requirement: the batch must finish within a stated time that one agent's sequential run (here 34.9 s mean) misses and the split's (here 9.8 s) meets. On a single issue, reopen only if a split beats arm S-plus at the same spend by more than its sweep-to-sweep spread (here one pass of 18)."
   }
 }

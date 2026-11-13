@@ -28,3 +28,7 @@ Removals are logged like additions.
 - **Removed:** autonomous merge; pushes to a protected branch
 - **Constrained:** push_commit and post_comment by circumstance; every gated call to a person's answer, and no answer to a hold
 
+## Assignment 6
+- **Added:** nothing (a split of RepoMind into a coordinator, an investigator and a writer, with a checked return contract and the five checks, was built on the branch `lab-06-split` and measured, and is not merged)
+- **Removed:** nothing
+- **Constrained:** multi-agent decomposition: measured against one agent, the same model, tools, budget, checks and tasks, and against one agent given the split's actual spend, and not merged; the decision, and the condition that reopens it, are in `decisions/0006-topology.md`
