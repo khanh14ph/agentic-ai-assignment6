@@ -160,7 +160,7 @@ def _bounded(agent, run_client, run_budget, share: Share, step: int, started: fl
 
 def investigate(ctx, receiver, agent, issue: int, share: Share, *, system: str, schema: dict, accept,
                 stop: threading.Event | None = None, event: str = "worker_return",
-                run_budget: int | None | str = "ctx") -> dict | None:
+                run_budget: int | None | str = "ctx", final_turns: int = None) -> dict | None:
     """One investigator's loop on one issue. Returns the accepted contract, or None.
 
     Every return is recorded on the receiver's trace as it arrives (`event`, a
@@ -168,8 +168,11 @@ def investigate(ctx, receiver, agent, issue: int, share: Share, *, system: str, 
     and the receiver's rules' verdict (`accepted`, `problems`), before anything acts on
     it. A return that breaks either goes back to the worker with the reason; nothing
     is repaired. `accept(contract, facts)` is the receiver's rules: a list of problems.
-    `run_budget` is the run's total the loop also keeps under: ctx.budget unless given."""
+    `run_budget` is the run's total the loop also keeps under: ctx.budget unless given.
+    `final_turns` is how many closing turns are held back for the return (FINAL_TURNS
+    unless given)."""
     run_budget = ctx.budget if run_budget == "ctx" else run_budget
+    final_turns = FINAL_TURNS if final_turns is None else final_turns
     surface = Surface(ctx.tools, INVESTIGATOR_ROLES)
     tools = surface.schemas + [return_tool(schema)]
     messages = [{"role": "user", "content": f"Investigate issue #{issue} (issue-{issue}) and return your finding."}]
@@ -180,7 +183,7 @@ def investigate(ctx, receiver, agent, issue: int, share: Share, *, system: str, 
         if stop is not None and stop.is_set():
             agent.trace.end("stopped", "the coordinator stopped this worker")
             return None
-        why = _bounded(agent, ctx.client, run_budget, share, step, started, last_cost, reserve_turns=FINAL_TURNS)
+        why = _bounded(agent, ctx.client, run_budget, share, step, started, last_cost, reserve_turns=final_turns)
         if why and not final:
             final = True                     # the reserved turn: return now, with what you have
             _say(messages, FINAL_TURN)
