@@ -121,10 +121,13 @@ pass more (25/30 against 27/30). Condition 1 failed here; condition 2 has never 
   assignment never tested.
 - **What I would lose by splitting.** A coordinator, a contract, a wait graph and a
   shared board, each a new place to fail and to maintain, for no measured gain in
-  passes; an investigator that, offered a smaller tool set beside a strict return tool,
-  sent a broken search filter in 28 of 139 searches (0 of 119 in arm S, with the same
-  tools); nobody seeing across issues in a batch (two reports of one bug); and a writer
+  passes; nobody seeing across issues in a batch (two reports of one bug); and a writer
   that can only be as good as one structured return, since whatever the return leaves
-  out is lost.
+  out is lost. One defect is not on this list, because the split does not cause it:
+  offered only the read-only tools beside a strict return tool, the model sent the
+  search filter as the string `"null"` in 28 of 133 searches in arm M and in 14 of 132
+  in arm S-plus, which is one agent, and never in arm S's 119. It comes with that tool
+  surface, whichever topology uses it, and the one-agent design decided on here
+  inherits it if it adopts that surface.
 
 ARCHITECTURE.md is unchanged: RepoMind is still one agent, and that is the result.

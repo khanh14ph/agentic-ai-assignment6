@@ -148,7 +148,7 @@
       "run_id": "split-batch-b-s01-973ed6",
       "anomaly": "none",
       "mast": "system_design",
-      "first_wrong": "investigator-4424 and investigator-4429 sent path_glob as the string \"null\" on every search, so every search matched nothing; each ran out of steps, returned 'bug, file none', was rejected by the coordinator's rule, and nothing was written for either issue (4431's investigator also chose src/exportUtils.ts over src/util/strings.ts, both of which it read)"
+      "first_wrong": "investigator-4424 and investigator-4429 sent path_glob as the string \"null\" on every search, so every search matched nothing; each ran out of steps, returned 'bug, file none', was rejected by the coordinator's rule, and nothing was written for either issue (a third issue, 4431, also failed: its investigator chose src/exportUtils.ts over src/util/strings.ts, both of which it read, with the right label, feature; the combined check passed it, having no answer key)"
     },
     {
       "run_id": "split-batch-b-s02-908a6d",

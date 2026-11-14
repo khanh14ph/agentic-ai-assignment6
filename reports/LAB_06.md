@@ -29,6 +29,7 @@ Model: Google, `gemini-3.5-flash-lite` through the OpenAI-compatible endpoint, t
 | Writer *i* ↔ writer *j* (batch) | Nothing: each writes on its own issue, from its own branch `repomind/issue-<n>` | None; the tracker is shared, but no two writers touch one issue | A conflict only if two writers were ever given one issue: that is what compare-and-set on the shared record is for |
 | Reviewer ↔ investigator (rejected) | The reviewer needs the investigator's whole record of work (what it read and why), or it searches again | Full records in every window, or a second search | Either the window fills with the investigator's history, or the work is done twice. On the same model the reviewer shares the author's blind spots, so its agreement is weak evidence (slides 11, 41) |
 | Patch author ↔ tester (rejected) | Each needs the other's output: the patch needs the failing case, the case needs the patch | Messages as they work | Slide 38: each right by its own brief, neither moves |
+| Every other pair with a rejected role: reviewer ↔ coordinator or writer; patch author or tester ↔ coordinator, investigator, writer or reviewer | The reviewer's verdict before the writer may write; the investigator's finding before the patch author or the tester can start; the patch, if the task grew to include one, before the writer could open the PR with it, and the reviewer's verdict on that patch | Through the lead, between rounds: each waits on the one before it | Each rejected role adds a seam in front of the writes and another wait on the same finding. None can start before the investigation ends, so they run in sequence and buy no parallelism |
 
 - **For one issue.** There is one seam, investigator → writer, crossed once, and it is
   a strict sequence: the writer can do nothing until the finding exists. The
@@ -76,6 +77,16 @@ Model: Google, `gemini-3.5-flash-lite` through the OpenAI-compatible endpoint, t
 
    No arrow inv-i ↔ inv-j, writer-i ↔ writer-j, or writer → investigator: nothing is
    needed across issues, and nothing flows backwards within one.
+
+   The rejected roles, with the arrows that rule them out (gate 1):
+
+     investigator ──whole record of work (what it read, and why)──► reviewer
+                  (without it, the reviewer searches again: the work is done twice)
+     reviewer ──verdict──► writer                (the writes wait on a second read)
+
+     patch author ──patch──────────────► tester
+          ▲                                │
+          └──────── failing case ──────────┘     a wait cycle: slide 38's deadlock
 ```
 
 **The four gates** (slide 46), in order, stopping at the first no.
@@ -344,7 +355,7 @@ acted on it faithfully, or nothing acted at all.
 
 | Run | What each agent read, wrote and waited on | The first thing that went wrong | Anomaly | MAST category |
 |---|---|---|---|---|
-| `split-batch-b-s01-973ed6` | Five investigators read the issue tracker and the repository (read-only; nothing shared); the coordinator waited on each, then on three writers; the writers wrote only their own issue | `investigator-4424` and `investigator-4429` sent `path_glob` as the string `"null"` on all seven of their searches, so every search matched nothing. Each reached its closing turn, returned `bug`, file `none`, `out_of_budget`; the coordinator's rule (a bug names a file) rejected it, the retry turn went on a refused search, and nothing was written for either issue. The combined check failed both, and the run ended `escalated`. Separately, `investigator-4431` read both `src/exportUtils.ts` and `src/util/strings.ts` and returned the first as `found` | none | system_design: a step repeated seven times on a broken argument, with no detector for a worker making no progress, and a stopping rule that leaves an issue unwritten. The string `"null"` filter appears only in arm M (28 of 139 searches; 0 of 119 in arm S): the same tools offered as a smaller set beside a strict return tool changed how the model fills an optional argument |
+| `split-batch-b-s01-973ed6` | Five investigators read the issue tracker and the repository (read-only; nothing shared); the coordinator waited on each, then on three writers; the writers wrote only their own issue | `investigator-4424` and `investigator-4429` sent `path_glob` as the string `"null"` on all seven of their searches, so every search matched nothing. Each reached its closing turn, returned `bug`, file `none`, `out_of_budget`; the coordinator's rule (a bug names a file) rejected it, the retry turn went on a refused search, and nothing was written for either issue. The combined check failed both, and the run ended `escalated`. A third issue failed on its own: `investigator-4431` read both `src/exportUtils.ts` and `src/util/strings.ts` and returned the first as `found`, with the right label (`feature`) and the wrong file (the answer is `src/util/strings.ts`). The writer wrote it as briefed, and the combined check passed it: comment, label and PR agreed with each other, and the check has no answer key | none | system_design: a step repeated seven times on a broken argument, with no detector for a worker making no progress, and a stopping rule that leaves an issue unwritten. The string `"null"` filter is not the split's doing: it appears wherever the investigation is offered only the read-only tools beside a strict return tool, in arm M (28 of 133 searches) and in arm S-plus, which is one agent (14 of 132), and never in arm S (0 of 119), which holds all ten tools. That surface changed how the model fills an optional argument, whatever the topology |
 | `split-batch-b-s02-908a6d` | As above; all five findings accepted, five writers | `investigator-4431` returned `bug` with status `found` for a feature request (non-Latin report names stripped from export file names), with the right file; the writer wrote it as briefed | none | task_verification: the label was never verified; my rules check its form, not which of bug or feature is right, and a same-model reviewer would be weak evidence (slide 41) |
 | `split-batch-b-s03-87bda3` | As above | The same: `investigator-4431` returned `bug`, `found`, for the feature request | none | task_verification, as above |
 | `split-one-4402-s01-8c63c9` | One investigator: six searches (a seventh refused at its closing turn), one read (`src/ingest/parser.ts`); the coordinator waited on it, then on the writer | Told to return at its closing turn, the investigator returned `src/ingest/parser.ts` as a `candidate`. The coordinator's rules accept a candidate that exists and was read, so the writer wrote it (saying it was not certain) | none | task_verification: the run acted on an unverified candidate; the closing turn ended the search early (premature termination) |
@@ -382,14 +393,7 @@ the wrong file for 4414 once.
 
 ## AI assistance
 
-Claude Code (Claude Opus 5.5) wrote, at my request: the split on `lab-06-split`
-(`ways/split.py`, `split/roles.py`, `split/guards.py`, `split/contract.schema.json`,
-the role prompts), `ways/splus.py` and `eval/results_06.py`; it ran the free scripted
-tests, the dev runs and the 72 measured runs, and drafted this report, the prediction
-and the decision record. What was checked: `python checks/check_06.py --here` on the
-branch (every guard replay passes; the contract and one-trace rows were also run on
-the scripted and dev runs before measuring); every number in Part C was recomputed by
-`eval/results_06.py` from `eval/check_task.py` and the `run_end` lines and agrees with
-`make check-06`; every arm M failure was read from its trace, not from any agent's
-report; the two discarded S-plus measurements were diagnosed from their traces and
-spend and are kept in `results/` and `runs/discarded/`.
+
+Which tool, what it wrote, and what you checked: Claude (Claude Code). I used it to do
+the implementation as I guided it, and I checked each change it made to the files. I
+also used it to refine the report.
